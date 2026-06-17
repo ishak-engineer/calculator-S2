@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Semester Average Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: url('banner.png') no-repeat center top;
+      background-size: cover;
+    }
+    header {
+      text-align: center;
+      background-color: rgba(0,0,128,0.7);
+      color: white;
+      padding: 20px;
+    }
+    h1 {
+      margin: 5px 0;
+    }
+    table {
+      width: 90%;
+      margin: 20px auto;
+      border-collapse: collapse;
+      background: #f9f9f9;
+    }
+    th, td {
+      border: 1px solid #333;
+      padding: 8px;
+      text-align: center;
+    }
+    th {
+      background: #004080;
+      color: white;
+    }
+    .btn-container {
+      text-align: center;
+      margin: 20px;
+    }
+    button {
+      padding: 10px 20px;
+      margin: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      background: #004080;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+    #results {
+      text-align: center;
+      margin: 20px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="your_uploaded_image.png" alt="University Banner" style="width:100%; height:auto;">
+    <h1>University of Continuous Education</h1>
+    <h2>Setif Centre 2026</h2>
+    <h3>Didactics of Foreign Languages: Semester 02</h3>
+    <h2>Average Calculator</h2>
+  </header>
+
+  <table id="gradesTable">
+    <tr>
+      <th>Module</th>
+      <th>Coefficient</th>
+      <th>Credit</th>
+      <th>TD Marks</th>
+      <th>Exam Marks</th>
+      <th>Average</th>
+    </tr>
+    <!-- Core Courses -->
+    <tr><td colspan="6"><b>UE Fondamentales</b></td></tr>
+    <tr><td>TEFL 2</td><td>3</td><td>6</td><td><input></td><td><input></td><td></td></tr>
+    <tr><td>Educational Psychology 2</td><td>2</td><td>4</td><td><input></td><td><input></td><td></td></tr>
+    <tr><td>Applied Linguistics 2</td><td>2</td><td>4</td><td><input></td><td><input></td><td></td></tr>
+    <tr><td>Syllabus Design & Evaluation 2</td><td>2</td><td>4</td><td><input></td><td><input></td><td></td></tr>
+    <!-- Methodology -->
+    <tr><td colspan="6"><b>UE Méthodologie</b></td></tr>
+    <tr><td>Research Methodology 2</td><td>3</td><td>5</td><td><input></td><td><input></td><td></td></tr>
+    <tr><td>Advanced Academic Writing 1</td><td>2</td><td>4</td><td><input></td><td><input></td><td></td></tr>
+    <!-- Exploratory -->
+    <tr><td colspan="6"><b>UE Découverte</b></td></tr>
+    <tr><td>Educational Technology 2</td><td>2</td><td>2</td><td><input></td><td><input></td><td></td></tr>
+    <!-- Transversal -->
+    <tr><td colspan="6"><b>UE Transversales</b></td></tr>
+    <tr><td>Computing Programming</td><td>1</td><td>1</td><td><input></td><td><input></td><td></td></tr>
+    <!-- Totals -->
+    <tr><td colspan="5"><b>Total Weighted Marks</b></td><td id="totalWeighted"></td></tr>
+    <tr><td colspan="5"><b>Average</b></td><td id="average"></td></tr>
+    <tr><td colspan="5"><b>Result</b></td><td id="result"></td></tr>
+    <tr><td colspan="5"><b>Total Credits</b></td><td id="credits"></td></tr>
+  </table>
+
+  <div class="btn-container">
+    <button onclick="calculate()">Calculate</button>
+    <button onclick="savePDF()">Save As PDF</button>
+  </div>
+
+  <div id="results"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+  <script>
+    function calculate() {
+      const table = document.getElementById("gradesTable");
+      let totalWeighted = 0;
+      let totalCoeff = 0;
+      let totalCredits = 0;
+
+      for (let i = 2; i < table.rows.length - 4; i++) {
+        const row = table.rows[i];
+        if (row.cells.length === 6 && row.cells[1].innerText) {
+          const coeff = parseFloat(row.cells[1].innerText);
+          const credit = parseFloat(row.cells[2].innerText);
+          const td = parseFloat(row.cells[3].children[0].value) || 0;
+          const exam = parseFloat(row.cells[4].children[0].value) || 0;
+          const avg = (td + exam) / 2;
+          row.cells[5].innerText = avg.toFixed(2);
+
+          totalWeighted += avg * coeff;
+          totalCoeff += coeff;
+          totalCredits += credit;
+        }
+      }
+
+      const overallAvg = totalWeighted / totalCoeff;
+      document.getElementById("totalWeighted").innerText = totalWeighted.toFixed(2);
+      document.getElementById("average").innerText = overallAvg.toFixed(2);
+      document.getElementById("credits").innerText = overallAvg >= 10 ? 30 : totalCredits;
+      document.getElementById("result").innerText = overallAvg >= 10 ? "Admis" : "Adjourn";
+    }
+
+    function savePDF() {
+      const element = document.getElementById("gradesTable");
+      const opt = {
+        margin: 0.5,
+        filename: 'Semester_Average.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'in', format: 'a4', orientation: 'landscape' }
+      };
+      html2pdf().set(opt).from(element).save();
+    }
+  </script>
+</body>
+</html>

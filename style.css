@@ -1,0 +1,96 @@
+/* Reset & base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: #f0f4f8;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* Header banner */
+header {
+  text-align: center;
+  background: linear-gradient(to right, #003366, #0055a5);
+  color: white;
+  padding: 20px;
+}
+
+header img {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin-bottom: 15px;
+}
+
+header h1, header h2, header h3 {
+  margin: 5px 0;
+}
+
+/* Table styling */
+table {
+  width: 95%;
+  margin: 30px auto;
+  border-collapse: collapse;
+  background: #fff;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+th, td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: center;
+}
+
+th {
+  background: #003366;
+  color: #fff;
+  font-weight: bold;
+}
+
+tr:nth-child(even) {
+  background: #f9f9f9;
+}
+
+input {
+  width: 60px;
+  padding: 5px;
+  text-align: center;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+}
+
+/* Buttons */
+.btn-container {
+  text-align: center;
+  margin: 20px;
+}
+
+button {
+  padding: 12px 25px;
+  margin: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  background: #0055a5;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background: #003366;
+}
+
+/* Results section */
+#results {
+  text-align: center;
+  margin: 20px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #003366;
+}
